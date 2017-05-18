@@ -1,0 +1,25 @@
+{
+  "name": "brackette-alpha",
+  "description": "",
+  "main": "index.js",
+  "authors": [
+    "Daniel <daniel.reguero@hotmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "src/public/lib",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "propeller": "^1.1.0",
+    "lodash": "^4.17.4",
+    "js-cookie": "^2.1.4",
+    "handlebars": "^4.0.8",
+    "socket.io-client": "^2.0.1"
+  }
+}

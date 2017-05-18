@@ -1,0 +1,9 @@
+<form>
+    <h1>{{match.player1Name}} vs {{match.player2Name}}</h2>
+    <input hidden value="{{match.id}}" id="matchId"/>
+    <input type="text" id="player1Score" placeholder="{{match.player1Name}} Score" value="0"/>
+    <input type="text" id="player2Score" placeholder="{{match.player2Name}} Score" value="0"/>
+    <h1>Winner</h1>
+    <input type="radio" name="winner" value="{{match.player1Id}}">{{match.player1Name}}</input>
+    <input type="radio" name="winner" value="{{match.player2Id}}">{{match.player2Name}}</input>    
+</form>

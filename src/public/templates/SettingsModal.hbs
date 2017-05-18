@@ -1,0 +1,34 @@
+<div class="modal-dialog">
+    <div class="modal-content">
+        <div class="modal-header pmd-modal-bordered">
+            <button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+            <h2 class="pmd-card-title-text">Settings</h2>
+        </div>
+        <div class="modal-body">
+            <p>Please enter a name and specify what role you are (server/client)</p>
+            <div class="form-group pmd-textfield">
+                <label for="name">Name</label>
+                <input type="text" class="mat-input form-control" name="settings-name" id="name" value="{{name}}">
+            </div>
+            {{#if isServer}}
+                <div class="form-group pmd-textfield" id="settings-more-options">
+                    <label for="tournamentid">Tournament Id</label>
+                    <input type="text" class="mat-input form-control" name="settings-tournamentid" id="tournamentid" value="{{tournamentid}}"/>
+                </div>
+            {{/if}}
+            <!--Begin radio buttons...-->
+            {{#if isServer}}
+                <input type="radio" name="settings-role" id="settings-server-radio" value="server" checked="checked">Server</input>
+                <input type="radio" name="settings-role" id="settings-client-radio" value="client">Client</input>
+                <br>
+                <button type="button" id= "settings-reset" class="btn pmd-btn-raised pmd-ripple-effect btn-danger">Reset Everyone</button>
+            {{else}}
+                <input type="radio" name="settings-role" id="settings-server-radio" value="server">Server</input>
+                <input type="radio" name="settings-role" id="settings-client-radio" value="client" checked="checked">Client</input>
+            {{/if}}
+            <div class="pmd-modal-action">
+                <button data-dismiss="modal" class="btn pmd-ripple-effect btn-primary" id='settings-submit-form' type="submit">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>

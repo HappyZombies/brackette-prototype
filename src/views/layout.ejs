@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Brackette - Alpha</title>
+        <meta name="description" content="Something goes here I think">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./lib/bootstrap/dist/css/bootstrap.css">
+        <link rel="stylesheet" href="./lib/propeller/dist/css/propeller.css">
+        <link rel="stylesheet" href="./css/style.css">
+        <link rel="stylesheet" href="http://fonts.googleapis.com/icon?family=Material+Icons">
+         <%- style %>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <!-- Nav menu with user information -->
+    <%- body %>
+     <footer class="site-footer text-center">
+        <p>Copyright &copy;<%= (new Date().getFullYear()); %> something something</p>
+    </footer>
+    <script src="./lib/jquery/dist/jquery.js"></script>
+    <script src="./lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="./lib/propeller/dist/js/propeller.js"></script>
+    <script src="./lib/js-cookie/src/js.cookie.js"></script>
+    <script src="./lib/handlebars/handlebars.js"></script> 
+    <script src="./lib/lodash/dist/lodash.min.js"></script>
+    <script src="./lib/socket.io-client/dist/socket.io.js"></script>
+    <%- script %>
+</body>
+</html>

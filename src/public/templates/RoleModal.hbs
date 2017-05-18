@@ -1,0 +1,22 @@
+<div tabindex="-1" class="modal fade" id="role-dialog" style="display: none;" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header pmd-modal-bordered">
+				<button aria-hidden="true" data-dismiss="modal" class="close" type="button">×</button>
+				<h2 class="pmd-card-title-text">Enter Information Before Going Forward</h2>
+			</div>
+			<div class="modal-body">
+				<p>Please enter a name and specify what role you are (server/client)</p>
+					<div class="form-group pmd-textfield pmd-textfield-floating-label">
+						<label for="name">Name</label>
+						<input type="text" class="mat-input form-control" name="name" id="name" value="">
+					</div>
+					<input type="radio" name="role" value="server">Server<br>
+					<input type="radio" name="role" value="client">Client<br>
+				<div class="pmd-modal-action">
+					<button data-dismiss="modal" class="btn pmd-ripple-effect btn-primary" id='submit-form' type="submit">Submit</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
