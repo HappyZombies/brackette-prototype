@@ -1,1 +1,5 @@
-{"setup":false,"apikey":"", "password":"password"}
+{
+    "setup":false,
+    "apikey":"", 
+    "password":"password"
+}
