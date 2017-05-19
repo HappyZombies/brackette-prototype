@@ -26,5 +26,8 @@
     "targets": [
       "node6"
     ]
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0"
   }
 }
