@@ -1,9 +1,0 @@
-<div class="pmd-card pmd-card-default pmd-z-depth pmd-card-custom-form">
-    <div class="pmd-card-title">
-        <h2 class="pmd-card-title-text">{{player1Name}} vs {{player2Name}}</h2>
-        <span class="pmd-card-subtitle-text">Status: <span id="{{id}}-progress">{{#if inprogress}}In Progress{{else}}Open{{/if}}</span></span>
-    </div>
-    <div class="pmd-card-actions">
-        <button {{#if inprogress}}disabled{{/if}} id="{{id}}" data-target="#clients-dialog" onclick="return false;" class="btn pmd-ripple-effect btn-primary" data-toggle="modal" aria-expanded="false" type="button">Send Match to Client</button>
-    </div>
-</div>
