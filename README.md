@@ -1,13 +1,12 @@
 # Brackette
 
-Manage your Challonge tournaments with ease. A beta application
+Manage your Challonge tournaments with ease. A beta application.
 
 ## Prerequesists
 
 You will need:
 * NodeJS 6x
 * NPM 3x
-* Bower 1x
 * Internet Connection
 * Local Network Connection
 
@@ -28,7 +27,6 @@ Brackette is a server application that you run on your local machine. Other devi
 * Run the following to install the backend and frontend dependecies:
     ```
     npm i
-    bower i
     ```
 ##### Step 3:
 * Now simply run the command  
@@ -43,29 +41,42 @@ Brackette is a server application that you run on your local machine. Other devi
 
 ### How to use
 
-Currently, you should have a Brackette server running.  If you are using the same computer in which you ran the server on, you can go to http://localhost and view the application running. However you can also get other devices connected to the server as long as they are in the same local network (using the same wifi). For other devices to connect to your Brackette Server, you can go to http://localhost/ip to view your local network ip address. Grab your phone or another computer and enter that ip address into the browser (again, must be in the same network!). Your other device (say your phone) should see the same popup menu. 
+Currently, you should have a Brackette server running.  If you are using the same computer in which you ran the server on, you can go to http://localhost:3000 and view the application running. However you can also get other devices connected to the server as long as they are in the same local network (aka, using the same wifi). For other devices to connect to your Brackette Server, obtain your local network ip adress via ~~you can go to http://localhost/ip to view your local network ip address.~~ Grab your phone or another computer and enter that ip address into the browser (again, must be in the same network!). Your other device (say your phone) should see the same popup menu. 
 
-Everytime a new device connects to the server, you must assign it a name and role. Let's discuss these roles.
+Everytime a new device connects to the Brackette server, you must assign it a name and role. Let's discuss these roles.
 
-* **Server Role** - in Brackette, a server role is where the main central hub from where you control the Challonge tournament will appear. The Server Role can view matches in progress and can send matches to individual *clients* (that is, other devices that connect to the server and assign themselves the Client Role). **At the moment, it is recommend you have only ONE server role. Brackette has not been fully tested for multiple Server Roles so expect issues if there is more than one Server Role.** The Server Role is the one that will mainly be making connections to Challonge and updating matches.
+* **Host Role** - in Brackette, a host role is where the main central hub from where you control the Challonge tournament will appear. The host Role can view matches in progress and can send matches to individual *clients* (that is, other devices that connect to the host and assign themselves the Client Role). **At the moment, it is recommend you have only ONE host role. Brackette has not been fully tested for multiple host Roles so expect issues if there is more than one host Role.** The host Role is the one that will mainly be making connections to Challonge and updating matches.
 * **Client Role** - in Brackette, a Client Role is a device that will receive matches. 
 
-Each role has different views and settings. The Server Role can configure the tournament match id while the Client Role cannot.
+Each role has different views and settings. The host Role can configure the tournament match id while the Client Role cannot.
 
-Now that you understand roles, assign yourself the **role of 'server'** and give yourself the name of "mainserver" (you can call yourself whatever you want). This popup won't go away unless you fill this form out. 
+Now that you understand roles, assign yourself the **role of 'host'** and give yourself the name of "mainhost" (you can call yourself whatever you want). This popup won't go away unless you fill this form out. 
 
-After that, you should get an alert message that there is some type of error. This is because the tournament id (currently nothing/undefined) is not valid. Go to the settings option on the top right and you should get a settings popup. Since you are a Server Role, you can set the tournament id. You can also change your name or role if you desire. Changing any of these settings will refresh the page to save. The 'Reset Everyone' button should be used if any problems occur to completly reset everyones role (this will be discussed more in detail later).
+After that, you should get an alert message that there is some type of error. This is because the tournament id (currently nothing/undefined) is not valid. Go to the settings option on the top right and you should get a settings popup. Since you are a host Role, you can set the tournament id. You can also change your name or role if you desire. 
 
-*FYI: The Tournament Id would be the name after the challoneg link, for example, if my tournament was http://challonge.com/nothingtournament, the tournament id that I would enter would be 'nothingtournament'.*
+*FYI: The Tournament Id would be the name after the challoneg link, for example, if my tournament was http://challonge.com/nothingtournament, the tournament id that I would enter would be 'nothingtournament'. If you have a subdomain, it will currently not work!*
 
-Assure that you actually are the owner of this tournament. If you are not, you won't be able to update the matches. 
+**Assure that you actually are the owner of this tournament. If you are not, you won't be able to update the matches.**
 
 After you enter the tournament id and click 'Submit'. If the tournament id was valid, you will get a list of all avialable *Open Matches*. 
 
-From there you can send an individual match to a connect Client Role device. The Client will receieve the match and update their display screen. The players will play their match, submit their results, and the Server Role will update the match and update the Open Matches display. 
+From there you can send an individual match to a connect Client Role device. The Client will receieve the match and update their display screen. The players will play their match, submit their results, and the host Role will update the match and update the Open Matches display. 
 
-If there are no open tournaments you will get a message that there are no open tournaments.
+If there are no open tournaments you will not get an error message and will not see anything on your display.
 
 ### Known Issues
 A more detailed documentation will be made later on. Please be aware that there are a view bugs so be sure to check those [here](https://github.com/HappyZombies/brackette/labels/bug). This app is in it's very very early Beta stages and will change. This current version v0.0.1b is a prototype.
 
+### Developers
+
+If you want to develop, you can run
+    ```
+    npm run dev
+    ```
+And start making changes to the files.
+
+If you make any changes and make a pull request, be sure to run 
+    ```
+    npm run build
+    ```
+Before delivering. Later on I will implement a tool to make this easier for developers.
