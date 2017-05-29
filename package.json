@@ -16,12 +16,12 @@
     "socket.io-client": "^2.0.1"
   },
   "devDependencies": {
-    "currently": "0.0.8",
+    "concurrently": "^3.4.0",
     "react-scripts": "1.0.1"
   },
   "scripts": {
     "dev": "concurrently \"npm run server\" \"react-scripts start\"",
-    "start": "npm run server",
+    "start": "node ./bin/www",
     "server": "nodemon ./bin/www",
     "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
