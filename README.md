@@ -1,6 +1,13 @@
-# Brackette
+
+<p align="center"><img src="/img/BracketteText_color.png"></p>
+
+<img src = "/img/sample.gif" />
 
 Manage your Challonge tournaments with ease. A beta application.
+
+## What ? 
+
+Simply put: Brackette allows you to send challonge matches to individual Wii U setups (like maybe have an iPad on each setup) to make it easier for players to report their match.
 
 ## Prerequesists
 
