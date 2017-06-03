@@ -30,7 +30,7 @@ class HomeDisplayContainer extends Component {
     const appropiateDisplay = (utils.isHost()) ? <HostDisplay {...this.props} /> : <ClientDisplay {...this.props} />
     return (
       <div>
-        <p>Hello {brackette.name}</p>
+        <h2>{brackette.name}</h2>
         {appropiateDisplay}
       </div>
     )
