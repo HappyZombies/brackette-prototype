@@ -34,7 +34,7 @@ class ClientDisplay extends Component {
   render () {
     const matchDisplay = Object.keys(this.state.currentMatch).length === 0 ? <div>Waiting for a match...</div> : this.currentMatchDisplay()
     return (
-      <div>Hello from ClientDisplay
+      <div>
         {matchDisplay}
       </div>
     )
@@ -57,12 +57,24 @@ class ClientDisplay extends Component {
   submitResult () {
     // so sorry.
     const winnerId = global.$('input[name=theWinner]:checked').val()
-    if (window.confirm('Are these results correct') && winnerId) {
+    let player1Score = global.$('#player1score').val()
+    let player2Score = global.$('#player2score').val()
+    if(isNaN(player1Score) || isNaN(player2Score)){
+      alert('The values you entered are not numbers!')
+      return;
+    }
+    player1Score = parseInt(player1Score);
+    player2Score = parseInt(player2Score);
+    if(player1Score < 0 || player2Score < 0) {
+      alert('Scores cannot be negative.')
+      return;
+    }
+    if(window.confirm('Are these results correct') && winnerId) {
       const matchRes = {
         match: {
           matchId: this.state.currentMatch.match.id,
           winnerId: winnerId,
-          score: global.$('#player1score').val() + '-' + global.$('#player2score').val()
+          score: player1Score + '-' + player2Score
         },
         hostToSend: this.state.hostBrackette
       }
