@@ -26,29 +26,41 @@ Brackette is a server application that you run on your local machine. Other devi
 * Rename config-example.json to config.json. There are three values in this json file. 
     * **setup** - tells the server whether you are setup or not. Allowed values: *true* or *false*
     * **apikey** - Your Challonge API key. See [here to learn more on how to get one](https://api.challonge.com/v1)
-    * **password** - This password is non-secured password that allows you to reset the server API key in the browser. This is optional.
+    * **password** - This password is non-secured password that allows you to reset the server API key in the browser. This is optional. *Note: As of v0.0.2b, the password field/functionality is not working yet*
 
 * You do not have to edit these values individually as the browser will walk you thru the setup process much easier than editing these files. **Just make sure that you changed the file name to config.json and that's all**. It is recommend you walk thru the setup process in the browser as the browser will test to make sure your API Key is valid.
 
 ##### Step 2:
+
+* Rename .env-example to .env
+* This is the environment settings for the server. config.json is different as it contains settings that are mainly used in the client side. 
+* If you have no clue just rename .env-example to .env and don't mess with anything inside that file.
+
+* *Note: If you change the port in the .env file, you must also go into the package.json file and change the proxy port there manually. There will be an easier way to implement this so please hang on*
+
+##### Step 3:
 * Run the following to install the backend and frontend dependecies:
     ```
-    npm i
+    npm i && cd client && npm i && cd ..
     ```
-##### Step 3:
+* If this command does not work, then you need to run 'npm i' in the root directory and in the client directory.
+
+##### Step 4:
 * Now simply run the command  
     ```
     npm start
     ```
 
-* You should get a message on your console that the server is running on your http://localhost. If you did not edit the values in the config.json file, you will be walked thru a setup process. You must enter a valid API Key in order to continue.
+* You should get a message on your console that the server is running on http://localhost:8080. If you did not edit the values in the config.json file, you will be walked thru a setup process. You must enter a valid API Key in order to continue.
     
-##### Step 4: 
+##### Step 5: 
 * That's it ! You now have your own Brackette serve running. You will be redirected to the home page and a pop up will ask you your name and role. How to use the application will be discussed next.
 
 ### How to use
 
-Currently, you should have a Brackette server running.  If you are using the same computer in which you ran the server on, you can go to http://localhost:3000 and view the application running. However you can also get other devices connected to the server as long as they are in the same local network (aka, using the same wifi). For other devices to connect to your Brackette Server, obtain your local network ip adress via ~~you can go to http://localhost/ip to view your local network ip address.~~ Grab your phone or another computer and enter that ip address into the browser (again, must be in the same network!). Your other device (say your phone) should see the same popup menu. 
+Currently, you should have a Brackette server running.  If you are using the same computer in which you ran the server on, you can go to http://localhost:8080 and view the application running.
+
+You can also get other devices connected to the server as long as they are in the same local network (aka, using the same wifi). For other devices to connect to your Brackette Server, obtain your local network ip adress via ~~you can go to http://localhost/ip to view your local network ip address.~~ Grab your phone or another computer and enter that ip address into the browser (again, must be in the same network!). Your other device (say your phone/iPad) should see the same popup menu. 
 
 Everytime a new device connects to the Brackette server, you must assign it a name and role. Let's discuss these roles.
 
@@ -82,8 +94,10 @@ If you want to develop, you can run
     ```
 And start making changes to the files.
 
-If you make any changes and make a pull request, be sure to run 
+If you make any changes and make a pull request, be sure to run inside the CLIENT directory.
     ```
     npm run build
     ```
-Before delivering. Later on I will implement a tool to make this easier for developers.
+Before delivering.
+
+Later on I will implement a tool to make this easier for developers.
