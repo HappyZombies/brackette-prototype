@@ -21,7 +21,7 @@ setup.post('/', (req, res) => {
       config.setup = true
       config.apikey = apikey
       config.password = 'password'
-      fs.writeFile(path.join(__dirname, '../../config.json'), JSON.stringify(config), 'utf8')
+      fs.writeFile(path.join(__dirname, '../../../config.json'), JSON.stringify(config), 'utf8')
       res.json({success: true}).status(200)
     }
   })

@@ -7,7 +7,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon ./server/index.js",
     "client": "node ./server/tools/start-client.js",
-    "lint": "node_modules/.bin/eslint"
+    "lint": "node_modules/.bin/eslint",
+    "update": "node ./server/tools/update.js"
   },
   "repository": {
     "url": "git+https://github.com/HappyZombies/brackette.git"
