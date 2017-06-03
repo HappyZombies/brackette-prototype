@@ -1,0 +1,31 @@
+{
+  "extends": [
+    "eslint:recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": 6,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "env": {
+    "es6": true,
+    "node": true,
+    "jest": true
+  },
+  "rules": {
+    "quotes": 0,
+    "no-console": 1,
+    "no-debugger": 0,
+    "no-var": 1,
+    "semi": 0,
+    "no-trailing-spaces": 1,
+    "eol-last": 0,
+    "no-unused-vars": 1,
+    "no-underscore-dangle": 1,
+    "no-alert": 1,
+    "no-lone-blocks": 0,
+    "jsx-quotes": 0
+  }
+}

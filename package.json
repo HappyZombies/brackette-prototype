@@ -1,31 +1,40 @@
 {
-  "name": "brackette-alpha",
-  "version": "0.1.0",
-  "private": true,
+  "name": "brackette",
+  "version": "0.0.2",
+  "description": "Run your challonge tournamnets with ease.",
+  "scripts": {
+    "start": "node ./server/index.js",
+    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "server": "nodemon ./server/index.js",
+    "client": "node ./server/tools/start-client.js",
+    "lint": "node_modules/.bin/eslint"
+  },
+  "repository": {
+    "url": "git+https://github.com/HappyZombies/brackette.git"
+  },
+  "author": "Daniel Reguero",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HappyZombies/brackette/issues"
+  },
+  "homepage": "https://github.com/HappyZombies/brackette#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
     "challonge": "^2.1.0",
+    "cookie-parser": "^1.4.3",
+    "dotenv": "^4.0.0",
     "express": "^4.15.3",
-    "lodash": "^4.17.4",
-    "react": "^15.5.4",
-    "react-dom": "^15.5.4",
-    "react-materialize": "^0.18.4",
-    "react-router-dom": "^4.1.1",
-    "shortid": "^2.2.8",
-    "socket.io": "^2.0.1",
-    "socket.io-client": "^2.0.1"
+    "morgan": "^1.8.2",
+    "opn": "^5.0.0",
+    "socket.io": "^2.0.2"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.24.1",
+    "babel-preset-es2015-node": "^6.1.1",
+    "babel-preset-stage-0": "^6.24.1",
     "concurrently": "^3.4.0",
-    "react-scripts": "1.0.1"
-  },
-  "scripts": {
-    "dev": "concurrently \"npm run server\" \"react-scripts start\"",
-    "start": "node ./bin/www",
-    "server": "nodemon ./bin/www",
-    "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
-    "eject": "react-scripts eject"
-  },
-  "proxy": "http://127.0.0.1:3000/"
+    "eslint": "^3.19.0",
+    "jest": "^20.0.4"
+  }
 }
