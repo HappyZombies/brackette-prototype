@@ -1,6 +1,6 @@
 {
   "name": "brackette",
-  "version": "0.0.2",
+  "version": "0.2.1",
   "auto-updater":{
     "repo":"HappyZombies/brackette",
     "branch":"master"
@@ -12,7 +12,7 @@
     "server": "nodemon ./server/index.js",
     "client": "node ./server/tools/start-client.js",
     "lint": "node_modules/.bin/eslint",
-    "update": "node ./server/tools/update.js"
+    "update": "node ./update.js"
   },
   "repository": {
     "url": "git+https://github.com/HappyZombies/brackette.git"
