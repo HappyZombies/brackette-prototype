@@ -1,6 +1,10 @@
 {
   "name": "brackette",
   "version": "0.0.2",
+  "auto-updater":{
+    "repo":"HappyZombies/brackette",
+    "branch":"master"
+  },
   "description": "Run your challonge tournamnets with ease.",
   "scripts": {
     "start": "node ./server/index.js",
@@ -20,6 +24,7 @@
   },
   "homepage": "https://github.com/HappyZombies/brackette#readme",
   "dependencies": {
+    "auto-updater": "^1.0.2",
     "body-parser": "^1.17.2",
     "challonge": "^2.1.0",
     "cookie-parser": "^1.4.3",
