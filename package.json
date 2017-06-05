@@ -1,6 +1,6 @@
 {
   "name": "brackette",
-  "version": "0.2.1",
+  "version": "0.2.1b",
   "main": "./server/index.js",
   "pkg": {
     "assets": [
@@ -46,6 +46,7 @@
     "express": "^4.15.3",
     "morgan": "^1.8.2",
     "opn": "^5.0.0",
+    "progress": "^2.0.0",
     "promise": "^7.1.1",
     "socket.io": "^2.0.2"
   },

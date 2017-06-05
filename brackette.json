@@ -1,5 +1,4 @@
 {
-  "version": "0.2.0",
   "name": "Brackette Beta",
   "bracketteJsonPath": "https://raw.githubusercontent.com/HappyZombies/brackette/master/brackette.json"
 }
