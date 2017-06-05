@@ -1,17 +1,16 @@
 /**
  * This file is important as server/index requires in this file. Be careful here!
  */
-import app from './app'
-import http from 'http'
-import open from 'opn'
-import {listen} from './socketEvents';
+const app = require('./app')
+const http = require('http')
+const open = require('opn')
 
 const port = normalizePort(process.env.PORT || '8080');
 app.set('port', port);
 const server = http.createServer(app)
 
 // Listen for sockets io events.
-listen(server);
+require('./socketEvents').listen(server);
 
 server.listen(port, () => {
   if (process.env.NODE_ENV === 'production') {

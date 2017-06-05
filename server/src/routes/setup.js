@@ -21,7 +21,7 @@ setup.post('/', (req, res) => {
       config.setup = true
       config.apikey = apikey
       config.password = 'password'
-      fs.writeFile(path.join(__dirname, '../../../config.json'), JSON.stringify(config), 'utf8')
+      fs.writeFile(__dirname + "/config.json", JSON.stringify(config), 'utf8')
       res.json({success: true}).status(200)
     }
   })
@@ -35,7 +35,7 @@ setup.post('/reset', (req, res) => {
   config.setup = false
   config.apikey = ''
   config.password = ''
-  fs.writeFile(path.join(__dirname, '../../config.json'), JSON.stringify(config), 'utf8')
+  fs.writeFile(__dirname + "/config.json", JSON.stringify(config), 'utf8')
   res.json({success: true})
 })
 

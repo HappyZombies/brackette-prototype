@@ -1,9 +1,22 @@
 {
   "name": "brackette",
   "version": "0.2.1",
-  "auto-updater":{
-    "repo":"HappyZombies/brackette",
-    "branch":"master"
+  "main": "./server/index.js",
+  "pkg": {
+    "assets": [
+      "./client/build/**/*",
+      "./client/build/**/*.map"
+    ],
+    "scripts": [
+      "./client/build/**/*.js",
+      "./node_modules/challonge/lib/api/*.js"
+    ],
+    "targets": [
+      "node7"
+    ]
+  },
+  "bin": {
+    "brackette": "./server/index.js"
   },
   "description": "Run your challonge tournamnets with ease.",
   "scripts": {
@@ -11,7 +24,7 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon ./server/index.js",
     "client": "node ./server/tools/start-client.js",
-    "lint": "node_modules/.bin/eslint",
+    "lint": "eslint",
     "update": "node ./update.js"
   },
   "repository": {
@@ -24,6 +37,7 @@
   },
   "homepage": "https://github.com/HappyZombies/brackette#readme",
   "dependencies": {
+    "adm-zip": "^0.4.7",
     "auto-updater": "^1.0.2",
     "body-parser": "^1.17.2",
     "challonge": "^2.1.0",
@@ -32,6 +46,7 @@
     "express": "^4.15.3",
     "morgan": "^1.8.2",
     "opn": "^5.0.0",
+    "promise": "^7.1.1",
     "socket.io": "^2.0.2"
   },
   "devDependencies": {

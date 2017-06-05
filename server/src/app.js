@@ -1,21 +1,22 @@
-import express from 'express'
-import logger from 'morgan'
-import cookieParser from 'cookie-parser'
-import bodyParser from 'body-parser'
-import dotenv from 'dotenv'
+const express = require('express')
+const logger = require('morgan')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
 
-import routes from './routes'
-
-dotenv.config()
+const routes = require('./routes')
+require('dotenv').config()
 const app = express()
 app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(cookieParser())
-app.use(routes);
+app.use(routes)
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static('client/build'));
+  app.use(express.static('client/build'))
+  app.get('*',  (req, res) => {
+    res.sendFile(__dirname + '/client/build/index.html');
+  })
 }
 
 module.exports = app
