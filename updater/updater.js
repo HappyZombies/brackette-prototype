@@ -43,7 +43,6 @@ function downloadJson() {
  * Decides what our course of action should be.
  */
 function decide(data) {
-  console.dir(data)
   const actualVersion = data.version;
   if(actualVersion == bracketteData.version) {
     console.info("You have the latest version: " + data.version);
@@ -55,7 +54,6 @@ function decide(data) {
     console.log('All done!');
   })
   .catch(function(err) {
-    console.log('oh noooo')
     console.error(err.message);
     // Assuming this worked...
     const zipname = `brackette-${actualVersion}.zip`
@@ -63,7 +61,6 @@ function decide(data) {
       // it exists so let's go!
       console.log('please wait...');
       const zip = new admzip('../' + zipname)
-      const zipEntries = zip.getEntries();
       zip.extractAllTo('../', true);
       fs.unlink('../' + zipname);
       console.log('done')
