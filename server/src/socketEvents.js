@@ -1,7 +1,7 @@
-//TODO: Update this to ES6.
 const socketio = require('socket.io')
 const challonge = require('challonge')
-const setupConfig = require('../../config.json')
+const fs = require('fs')
+const setupConfig = JSON.parse(fs.readFileSync(process.cwd() + '/config.json'))
 const challongeClient = challonge.createClient({
   apiKey: setupConfig.apikey
 })

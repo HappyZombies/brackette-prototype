@@ -1,8 +1,7 @@
-//TODO: Update this to es6
 const setup = require('express').Router()
 const fs = require('fs')
-const path = require('path')
-const config = require('../../../config.json')
+const configPath = process.cwd() + '/config.json'
+const config = JSON.parse(fs.readFileSync(configPath))
 const challonge = require('challonge')
 
 setup.post('/', (req, res) => {
@@ -12,7 +11,7 @@ setup.post('/', (req, res) => {
     apiKey: apikey
   })
   client.tournaments.index({
-    callback: (err, data) => {
+    callback: (err) => {
       if (err) {
         console.log('Error on setup!')
         console.log(err)
@@ -21,7 +20,7 @@ setup.post('/', (req, res) => {
       config.setup = true
       config.apikey = apikey
       config.password = 'password'
-      fs.writeFile(__dirname + "/config.json", JSON.stringify(config), 'utf8')
+      fs.writeFileSync(configPath, JSON.stringify(config), 'utf8')
       res.json({success: true}).status(200)
     }
   })
@@ -35,7 +34,7 @@ setup.post('/reset', (req, res) => {
   config.setup = false
   config.apikey = ''
   config.password = ''
-  fs.writeFile(__dirname + "/config.json", JSON.stringify(config), 'utf8')
+  fs.writeFileSync(configPath, JSON.stringify(config), 'utf8')
   res.json({success: true})
 })
 
