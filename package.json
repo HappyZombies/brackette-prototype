@@ -25,7 +25,8 @@
     "server": "nodemon ./server/index.js",
     "client": "node ./server/tools/start-client.js",
     "lint": "eslint",
-    "update": "node ./update.js"
+    "update": "node ./update.js",
+    "package": "pkg -t node7-win . && cd updater && pkg -t node7-win updater.js && cd .."
   },
   "repository": {
     "url": "git+https://github.com/HappyZombies/brackette.git"
@@ -53,6 +54,7 @@
   },
   "devDependencies": {
     "eslint": "^3.19.0",
-    "jest": "^20.0.4"
+    "jest": "^20.0.4",
+    "pkg": "^4.0.0"
   }
 }
