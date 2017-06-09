@@ -2,11 +2,13 @@ const fs = require('fs')
 const https = require('https')
 const admzip = require('adm-zip')
 const Promise = require('promise')
-const bracketteData = require('../brackette-info.json')
 const downloadRelease = require('download-github-release');
 /**
  * Begging by brackette.json with that of the brackette.json from GitHub.
 */
+//sync get file cuz why not.
+let actualVersion;
+const bracketteData = JSON.parse(fs.readFileSync('./brackette-info.json', 'utf8'));
 downloadJson.call()
 .then(decide)
 
@@ -43,10 +45,14 @@ function downloadJson() {
  * Decides what our course of action should be.
  */
 function decide(data) {
-  const actualVersion = data.version;
+  actualVersion = data.version;
   if(actualVersion == bracketteData.version) {
     console.info("You have the latest version: " + data.version);
     return Promise.reject("You have the latest version: " + data.version);
+  }
+  if(fs.existsSync('../.git')){
+    console.info("You have git, you should 'git pull' not run this updater.");
+    return Promise.reject("Please run 'git pull'");
   }
   console.info("You are out of date. Updating now.");
   downloadRelease(bracketteData.user, bracketteData.repo, bracketteData.outputdir, filterRelease, filterAsset)
@@ -80,5 +86,5 @@ function filterRelease(release) {
 // Define a function to filter assets.
 function filterAsset(asset) {
   // Select assets that contain the string 'windows'.
-  return asset.name.indexOf(`brackette-`) >= 0;
+  return asset.name.indexOf(`brackette-${actualVersion}`) >= 0;
 }
