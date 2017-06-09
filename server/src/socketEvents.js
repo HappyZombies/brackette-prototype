@@ -1,15 +1,22 @@
 const socketio = require('socket.io')
 const challonge = require('challonge')
 const fs = require('fs')
-const setupConfig = JSON.parse(fs.readFileSync(process.cwd() + '/config.json'))
-const challongeClient = challonge.createClient({
+let setupConfig = JSON.parse(fs.readFileSync(process.cwd() + '/config.json'))
+let challongeClient = challonge.createClient({
   apiKey: setupConfig.apikey
 })
-
 let ALL_BRACKETTES = {}
 let OPEN_MATCHES = {}
 let ALL_PLAYERS_NAME = {}
 let currentTournamentId
+
+// Listen for changes incase setupConfig changes (on first setup or reset)
+fs.watch(process.cwd() + '/config.json', () => {
+  setupConfig = JSON.parse(fs.readFileSync(process.cwd() + '/config.json'));
+  challongeClient = challonge.createClient({
+    apiKey: setupConfig.apikey
+  })
+})
 
 module.exports.listen = (app) => {
   const io = socketio.listen(app)
@@ -27,7 +34,7 @@ module.exports.listen = (app) => {
           callback: (err, data) => {
             if (err || !brackette.currentTournamentId) {
               console.log('There was an error communicating with Brackette.')
-              socket.emit('brackette error', {message: 'There was an error with the tournament ID given...'})
+              socket.emit('brackette error', { message: 'There was an error with the tournament ID given...' })
               OPEN_MATCHES = {}
               ALL_PLAYERS_NAME = {}
               return
@@ -43,7 +50,7 @@ module.exports.listen = (app) => {
                   console.log('Error getting all players name...')
                   OPEN_MATCHES = {}
                   ALL_PLAYERS_NAME = {}
-                  socket.emit('brackette error', {message: 'There was an error getting the players names...'})
+                  socket.emit('brackette error', { message: 'There was an error getting the players names...' })
                   return
                 }
                 // store ALL_PLAYERS to object by their player id.
@@ -62,10 +69,10 @@ module.exports.listen = (app) => {
     })
     socket.on('send private match details', (matchDetails) => {
       if (Object.keys(OPEN_MATCHES).length !== 0) {
-          // here we would calculate the match! nice...
+        // here we would calculate the match! nice...
         io.to(matchDetails.socketId).emit('receive match details', matchDetails.specificMatch)
       } else {
-        socket.emit('brackette error', {message: 'There are no open matches...'})
+        socket.emit('brackette error', { message: 'There are no open matches...' })
       }
     })
 
@@ -81,8 +88,8 @@ module.exports.listen = (app) => {
           if (err) {
             console.log('Error sending match results.')
             console.dir(err)
-            socket.emit('brackette error', {message: 'There was an error with the tournament ID given...'})
-              // FIXME: Make these errors more specific :P
+            socket.emit('brackette error', { message: 'There was an error with the tournament ID given...' })
+            // FIXME: Make these errors more specific :P
             return
           }
           // now we need to get the new set of open tournaments....
@@ -93,7 +100,7 @@ module.exports.listen = (app) => {
             callback: (err, data) => {
               if (err) {
                 console.dir("Error retrieving open matches from Challonge.")
-                socket.emit('brackette error', {message: 'There was an error with the tournament ID given...'})
+                socket.emit('brackette error', { message: 'There was an error with the tournament ID given...' })
                 OPEN_MATCHES = {}
                 return
               }
@@ -109,12 +116,12 @@ module.exports.listen = (app) => {
     socket.on('disconnect', () => {
       console.log('someone disconnected', socket.id)
       delete ALL_BRACKETTES[socket.id]
-   // io.sockets.emit('someone_left', bracketteUserThatLeft)
+      // io.sockets.emit('someone_left', bracketteUserThatLeft)
       io.sockets.emit('update brackettes', ALL_BRACKETTES)
     })
   })
 
-  function isHost (socketId)  {
+  function isHost(socketId) {
     return ALL_BRACKETTES[socketId].role === 'host'
   }
 }
