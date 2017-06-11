@@ -1,6 +1,7 @@
 {
   "extends": [
-    "eslint:recommended"
+    "eslint:recommended",
+    "react-app"
   ],
   "parserOptions": {
     "ecmaVersion": 6,

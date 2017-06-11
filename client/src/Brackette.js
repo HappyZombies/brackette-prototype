@@ -5,7 +5,7 @@
 import shortid from 'shortid'
 
 export default class Brackette {
-  constructor () {
+  constructor() {
     this.allBrackettes = {}
     this.allChallongePlayersName = {}
     this.allOpenMatches = {}

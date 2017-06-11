@@ -15,13 +15,13 @@ setup.post('/', (req, res) => {
       if (err) {
         console.log('Error on setup!')
         console.log(err)
-        return res.json({error: err.text}).status(401)
+        return res.json({ error: err.text }).status(401)
       }
       config.setup = true
       config.apikey = apikey
       config.password = 'password'
       fs.writeFileSync(configPath, JSON.stringify(config), 'utf8')
-      res.json({success: true}).status(200)
+      res.json({ success: true }).status(200)
     }
   })
 })
@@ -29,17 +29,17 @@ setup.post('/', (req, res) => {
 setup.post('/reset', (req, res) => {
   const password = req.body.password
   if (password !== config.password) {
-    return res.json({success: false})
+    return res.json({ success: false })
   }
   config.setup = false
   config.apikey = ''
   config.password = ''
   fs.writeFileSync(configPath, JSON.stringify(config), 'utf8')
-  res.json({success: true})
+  res.json({ success: true })
 })
 
 setup.get('/setup-config', (req, res) => {
-  res.json({setup: config.setup})
+  res.json({ setup: config.setup })
 })
 
 module.exports = setup

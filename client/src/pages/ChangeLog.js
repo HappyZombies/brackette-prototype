@@ -1,7 +1,7 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
 class ChangeLog extends Component {
-  render () {
+  render() {
     return (
       <div>
         The First Change Log...

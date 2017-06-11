@@ -1,16 +1,16 @@
-import React, {Component} from 'react'
-import {Modal, Button} from 'react-materialize'
+import React, { Component } from 'react'
+import { Modal, Button } from 'react-materialize'
 
 class ConnectedClientsModal extends Component {
 
-  constructor () {
+  constructor() {
     super()
     this.sendMatch = this.sendMatch.bind(this)
   }
-  componentDidMount () {
+  componentDidMount() {
     global.$('#allClientsModal').modal('open')
   }
-  render () {
+  render() {
     return (
       <Modal
         header='Setup'
@@ -22,13 +22,13 @@ class ConnectedClientsModal extends Component {
             this.props.hideAllCleintsModal()
           }
         }}
-        >
+      >
         {this.modalData()}
       </Modal>
     )
   }
 
-  modalData () {
+  modalData() {
     // This is mainly to simplify and cut down on the render()
     const allClients = Object.keys(this.props.brackette.allBrackettes).map((theKey) => {
       return (<Button
@@ -42,7 +42,7 @@ class ConnectedClientsModal extends Component {
     })
     return (<p>Send this match to a client.<br />{allClients}</p>)
   }
-  sendMatch (e) {
+  sendMatch(e) {
     const messageToClient = {
       specificMatch: this.props.specificMatch,
       socketId: e.target.id

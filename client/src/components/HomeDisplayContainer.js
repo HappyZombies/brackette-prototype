@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import _ from 'lodash'
 import * as utils from '../util'
 
@@ -7,8 +7,8 @@ import ClientDisplay from './ClientDisplay'
 
 class HomeDisplayContainer extends Component {
 
-  componentDidMount () {
-    const {socket, brackette, handleBracketteChange} = this.props
+  componentDidMount() {
+    const { socket, brackette, handleBracketteChange } = this.props
     socket.emit('add brackette', brackette)
     socket.on('update brackettes', (allBrackettes) => {
       let tempBrackette = brackette
@@ -22,8 +22,8 @@ class HomeDisplayContainer extends Component {
     })
   }
 
-  render () {
-    const {brackette} = this.props
+  render() {
+    const { brackette } = this.props
     const appropiateDisplay = (utils.isHost()) ? <HostDisplay {...this.props} /> : <ClientDisplay {...this.props} />
     return (
       <div>

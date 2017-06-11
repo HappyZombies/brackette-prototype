@@ -9,8 +9,8 @@ import ChangeLog from './pages/ChangeLog'
 const Routes = (setup) => (
   <Switch>
     <Route exact path='/' component={Home} />
-    <Route exact path='/setup' component={() => <Setup setup={setup} />} /> { /* Do we even want this as a route ? */ }
-    <Route exact path='/change-log' component={ChangeLog} /> { /* Do we even want this as a route ? */ }
+    <Route exact path='/setup' component={() => <Setup setup={setup} />} /> { /* Do we even want this as a route ? */}
+    <Route exact path='/change-log' component={ChangeLog} /> { /* Do we even want this as a route ? */}
     <Route exact path='*' component={NotFound} />
   </Switch>
 )

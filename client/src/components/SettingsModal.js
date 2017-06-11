@@ -1,11 +1,11 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 
-import {Modal, Input, Button, Row} from 'react-materialize'
+import { Modal, Input, Button, Row } from 'react-materialize'
 import * as utils from '../util'
 
 class SettingsModal extends Component {
 
-  render () {
+  render() {
     return (
       <Modal
         header='Settings'
@@ -42,7 +42,7 @@ class SettingsModal extends Component {
     )
   }
 
-  settingsForm () {
+  settingsForm() {
     // ... How do I break this up... ? TODO: Break This up using ternary
     if (utils.isHost()) {
       return (

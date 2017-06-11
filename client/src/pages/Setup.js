@@ -1,20 +1,20 @@
-import React, {Component} from 'react'
-import {Row, Input, Button} from 'react-materialize'
+import React, { Component } from 'react'
+import { Row, Input, Button } from 'react-materialize'
 
 // This page is straightforward
 
 class Setup extends Component {
 
-  constructor (props) {
+  constructor(props) {
     super(props)
-    this.state = {apikey: ''}
+    this.state = { apikey: '' }
 
     // Recall that the this is lost! So bind the methods.
     this.handleApiChange = this.handleApiChange.bind(this)
     this.submitSetup = this.submitSetup.bind(this)
   }
 
-  render () {
+  render() {
     if (this.props.setup) {
       return <p className='flow-text container'>You are already setup</p>
     }
@@ -39,11 +39,11 @@ class Setup extends Component {
     )
   }
 
-  handleApiChange (e) {
-    this.setState({apikey: e.target.value})
+  handleApiChange(e) {
+    this.setState({ apikey: e.target.value })
   }
 
-  submitSetup (e) {
+  submitSetup(e) {
     e.preventDefault()
     fetch('/setup', {
       method: 'POST',

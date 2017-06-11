@@ -1,12 +1,12 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import OpenMatchesDisplay from './OpenMatchesDisplay'
-import {Tabs, Tab, Button} from 'react-materialize'
+import { Tabs, Tab } from 'react-materialize'
 
 class HostDisplay extends Component {
 
-  componentDidMount () {
+  componentDidMount() {
     // Host needs...matches...and players name...
-    const {socket, brackette, handleBracketteChange} = this.props
+    const { socket, brackette, handleBracketteChange } = this.props
     socket.on('receive matches', (allOpenMatches) => {
       let tempBrackette = brackette
       tempBrackette.allOpenMatches = allOpenMatches
@@ -14,11 +14,11 @@ class HostDisplay extends Component {
     })
   }
 
-  render () {
+  render() {
     return (
       <Tabs>
         <Tab title="Open Matches" active><OpenMatchesDisplay {...this.props} /></Tab>
-        <Tab title="Challonge"><iframe src={"http://challonge.com/" + this.props.brackette.currentTournamentId + "/module"} width="100%" height="500" frameBorder="0" scrolling="auto" allowTransparency="true"></iframe></Tab>
+        <Tab title="Challonge"><iframe title="challonge-tab" src={"http://challonge.com/" + this.props.brackette.currentTournamentId + "/module"} width="100%" height="500" frameBorder="0" scrolling="auto" allowTransparency="true"></iframe></Tab>
       </Tabs>
     )
   }
