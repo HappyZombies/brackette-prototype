@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import OpenMatchesDisplay from './OpenMatchesDisplay'
+import {Tabs, Tab, Button} from 'react-materialize'
 
 class HostDisplay extends Component {
 
@@ -15,9 +16,10 @@ class HostDisplay extends Component {
 
   render () {
     return (
-      <div>
-        <OpenMatchesDisplay {...this.props} />
-      </div>
+      <Tabs>
+        <Tab title="Open Matches" active><OpenMatchesDisplay {...this.props} /></Tab>
+        <Tab title="Challonge"><iframe src={"http://challonge.com/" + this.props.brackette.currentTournamentId + "/module"} width="100%" height="500" frameBorder="0" scrolling="auto" allowTransparency="true"></iframe></Tab>
+      </Tabs>
     )
   }
 
