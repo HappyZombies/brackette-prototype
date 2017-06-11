@@ -24,9 +24,6 @@ class HomeDisplayContainer extends Component {
 
   render () {
     const {brackette} = this.props
-    // const connectedPeople = Object.keys(brackette.allBrackettes).map((theKey) => {
-    //   return (<li key={theKey}>{brackette.allBrackettes[theKey].name}</li>)
-    // })
     const appropiateDisplay = (utils.isHost()) ? <HostDisplay {...this.props} /> : <ClientDisplay {...this.props} />
     return (
       <div>
