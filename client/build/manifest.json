@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "Brackette",
+  "name": "Brackette",
   "icons": [
     {
       "src": "favicon.ico",
@@ -9,7 +9,8 @@
     }
   ],
   "start_url": "./index.html",
-  "display": "standalone",
+  "display": "fullscreen",
+  "orientation": "portrait",
   "theme_color": "#000000",
   "background_color": "#ffffff"
 }

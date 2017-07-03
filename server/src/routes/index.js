@@ -1,5 +1,5 @@
-const app = require('express').Router()
+const app = require('express').Router();
 
-app.use('/setup', require('./setup'))
+app.use('/setup', require('./setup'));
 
-module.exports = app
+module.exports = app;

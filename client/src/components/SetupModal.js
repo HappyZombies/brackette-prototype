@@ -1,63 +1,75 @@
-import React, { Component } from 'react'
-import { Modal, Input, Button, Row } from 'react-materialize'
+import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import _ from 'lodash';
 
-import * as utils from '../util'
+import { FlatButton, Dialog, TextField, RadioButton, RadioButtonGroup } from 'material-ui';
+
+import { updateBrackette } from '../actions/bracketteActions';
+
 
 class SetupModal extends Component {
-
   constructor(props) {
-    super(props)
-    this.brackette = utils.getBracketteObj() // why not state ? Good question...TODO: Update to state instead of local ?
+    super(props);
+    this.state = {
+      name: null,
+      role: null
+    };
   }
-
-  componentDidMount() {
-    if (!this.brackette.isSetup) {
-      global.$('#setupModal').modal('open')
+  handleClose() {
+    const { name, role } = this.state;
+    if (name && role) {
+      let newBrackette = _.cloneDeep(this.props.brackette);
+      newBrackette.name = name;
+      newBrackette.role = role;
+      newBrackette.isSetup = true;
+      this.props.updateBrackette(newBrackette);
     }
   }
+  handleTextChange(e) {
+    this.setState({
+      name: e.target.value
+    });
+  }
+  handleRadioChange(e) {
+    this.setState({
+      role: e.target.value
+    });
+  }
   render() {
+    const actions = [
+      <FlatButton
+        label="Submit"
+        primary={true}
+        onTouchTap={this.handleClose.bind(this)}
+      />,
+    ];
     return (
-      <Modal
-        header='Setup'
-        id='setupModal'
-        actions={<Button waves='light' modal='close' flat>Submit</Button>}
-        modalOptions={{
-          dismissible: false,
-          complete: (modal, trigger) => {
-            // Validate form... have to use jquery...
-            const name = global.$('#setupName').val()
-            const role = global.$('input[name=role]:checked').val()
-            if (name && role) {
-              // great, now update the brackette object :)
-              this.brackette.name = name
-              this.brackette.role = role
-              this.brackette.isSetup = true
-              this.props.handleBracketteChange(this.brackette)
-            } else {
-              // person tried to exit out without filling out form.
-              global.$('#setupModal').modal('open')
-            }
-          }
-        }}
+      <Dialog
+        title="User Setup"
+        actions={actions}
+        open={!this.props.brackette.isSetup}
+        contentStyle={{ height: 1000 }}
       >
-        {this.modalForm()}
-      </Modal>
-    )
+        <p>Before you continue, please specify your name and role.</p>
+        <div>
+          <TextField
+            floatingLabelText="Name"
+            id="Name"
+            onChange={this.handleTextChange.bind(this)}
+          />
+          <RadioButtonGroup name="role" onChange={this.handleRadioChange.bind(this)}>
+            <RadioButton value="host" label="Host" />
+            <RadioButton value="client" label="Client" />
+          </RadioButtonGroup>
+        </div>
+      </Dialog>
+    );
   }
-
-  modalForm() {
-    // This is mainly to simplify and cut down on the render()
-    return (<div>
-      <p>Before you continue, please specify your name and role.</p>
-      <Row>
-        <Input s={6} label='Name' id='setupName' />
-      </Row>
-      <p>Your Role </p>
-      <Input name='role' type='radio' value='host' label='Host' />
-      <Input name='role' type='radio' value='client' label='Client' />
-    </div>)
-  }
-
 }
 
-export default SetupModal
+const mapDispatchToProps = dispatch => bindActionCreators({
+  updateBrackette,
+}, dispatch);
+
+export default connect(null, mapDispatchToProps)(SetupModal);
