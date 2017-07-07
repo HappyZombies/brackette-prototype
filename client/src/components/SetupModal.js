@@ -1,12 +1,15 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import _ from 'lodash';
-
-import { FlatButton, Dialog, TextField, RadioButton, RadioButtonGroup } from 'material-ui';
-
-import { updateBrackette } from '../actions/bracketteActions';
-
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import _ from "lodash";
+import {
+  FlatButton,
+  Dialog,
+  TextField,
+  RadioButton,
+  RadioButtonGroup
+} from "material-ui";
+import { updateBrackette } from "../actions/bracketteActions";
 
 class SetupModal extends Component {
   constructor(props) {
@@ -42,7 +45,7 @@ class SetupModal extends Component {
         label="Submit"
         primary={true}
         onTouchTap={this.handleClose.bind(this)}
-      />,
+      />
     ];
     return (
       <Dialog
@@ -58,9 +61,12 @@ class SetupModal extends Component {
             id="Name"
             onChange={this.handleTextChange.bind(this)}
           />
-          <RadioButtonGroup name="role" onChange={this.handleRadioChange.bind(this)}>
-            <RadioButton value="host" label="Host" />
-            <RadioButton value="client" label="Client" />
+          <RadioButtonGroup
+            name="role"
+            onChange={this.handleRadioChange.bind(this)}
+          >
+            <RadioButton value="host" label="TO" />
+            <RadioButton value="client" label="Setup" />
           </RadioButtonGroup>
         </div>
       </Dialog>
@@ -68,8 +74,12 @@ class SetupModal extends Component {
   }
 }
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  updateBrackette,
-}, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      updateBrackette
+    },
+    dispatch
+  );
 
 export default connect(null, mapDispatchToProps)(SetupModal);

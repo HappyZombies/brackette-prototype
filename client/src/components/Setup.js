@@ -1,20 +1,20 @@
 // npm modules
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 
 // material ui modules
-import TextField from 'material-ui/TextField';
-import RaisedButton from 'material-ui/RaisedButton';
-import { yellow600 } from 'material-ui/styles/colors';
+import TextField from "material-ui/TextField";
+import RaisedButton from "material-ui/RaisedButton";
+import { yellow600 } from "material-ui/styles/colors";
 
 // our modudles
-import { updateSetupStatus } from '../actions/setupStatusActions';
+import { updateSetupStatus } from "../actions/setupStatusActions";
 
 const styles = {
   underlineStyle: {
-    borderColor: yellow600,
-  },
+    borderColor: yellow600
+  }
 };
 
 class Setup extends Component {
@@ -47,10 +47,13 @@ class Setup extends Component {
           errorText={this.props.error}
         />
         <br />
-        <RaisedButton label="Submit" primary={true} onTouchTap={this.handleClick} />
+        <RaisedButton
+          label="Submit"
+          primary={true}
+          onTouchTap={this.handleClick}
+        />
       </div>
     );
-
   }
 }
 
@@ -58,8 +61,12 @@ const mapStateToProps = state => ({
   error: state.setupStatus.error
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  updateSetupStatus
-}, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      updateSetupStatus
+    },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(Setup);

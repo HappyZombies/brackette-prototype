@@ -22,7 +22,6 @@
   "scripts": {
     "start": "node ./server/index.js",
     "start:dev": "concurrently \"npm run server\" \"npm run client\"",
-    "desktop": "electron ./desktop/main.js",
     "server": "nodemon ./server/index.js",
     "client": "node ./server/tools/start-client.js",
     "package": "pkg -t node7-win . && cd updater && pkg -t node7-win updater.js && cd .."

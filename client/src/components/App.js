@@ -1,17 +1,17 @@
 // npm modules
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
 // material ui modules
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import CircularProgress from 'material-ui/CircularProgress';
+import MuiThemeProvider from "material-ui/styles/MuiThemeProvider";
+import CircularProgress from "material-ui/CircularProgress";
 
 // our modules
-import { getSetupStatus } from '../actions/setupStatusActions';
-import { fetchBrackette, addBrackette } from '../actions/bracketteActions';
+import { getSetupStatus } from "../actions/setupStatusActions";
+import { fetchBrackette, addBrackette } from "../actions/bracketteActions";
 
-import Setup from './Setup';
-import Home from './Home';
+import Setup from "./Setup";
+import Home from "./Home";
 
 class App extends Component {
   constructor(props) {
@@ -22,7 +22,7 @@ class App extends Component {
   render() {
     const { pending, setup } = this.props;
     return (
-      <MuiThemeProvider >
+      <MuiThemeProvider>
         <div>
           {(() => {
             if (pending) {
@@ -38,7 +38,6 @@ class App extends Component {
       </MuiThemeProvider>
     );
   }
-
 }
 
 const mapStateToProps = state => ({
@@ -46,10 +45,14 @@ const mapStateToProps = state => ({
   pending: state.setupStatus.pending
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  getSetupStatus,
-  fetchBrackette,
-  addBrackette
-}, dispatch);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      getSetupStatus,
+      fetchBrackette,
+      addBrackette
+    },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

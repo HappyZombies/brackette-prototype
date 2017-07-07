@@ -1,23 +1,23 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import { bindActionCreators } from 'redux';
-import { GridList, FloatingActionButton } from 'material-ui';
-import Send from 'material-ui/svg-icons/content/send';
-import _ from 'lodash';
-import { updateBrackette } from '../actions/bracketteActions';
-import MatchCard from './MatchCard';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { GridList, FloatingActionButton } from "material-ui";
+import Send from "material-ui/svg-icons/content/send";
+import _ from "lodash";
+import { updateBrackette } from "../actions/bracketteActions";
+import MatchCard from "./MatchCard";
 
 const styles = {
   root: {
-    display: 'flex',
-    flexWrap: 'wrap',
-    justifyContent: 'space-around',
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "space-around"
   },
   gridList: {
     height: 450,
-    overflowY: 'auto',
-    margin: '0 auto'
-  },
+    overflowY: "auto",
+    margin: "0 auto"
+  }
 };
 class CurrentMatchDisplay extends Component {
   constructor() {
@@ -55,7 +55,7 @@ class CurrentMatchDisplay extends Component {
     let player1Score = this.state.player1score;
     let player2Score = this.state.player2score;
     if (isNaN(player1Score) || isNaN(player2Score)) {
-      alert('The values you entered are not numbers!');
+      alert("The values you entered are not numbers!");
       return;
     }
 
@@ -63,39 +63,48 @@ class CurrentMatchDisplay extends Component {
     player2Score = parseInt(player2Score, 10);
 
     if (player1Score < 0 || player2Score < 0) {
-      alert('Scores cannot be negative.');
+      alert("Scores cannot be negative.");
       return;
     }
     if (player1Score === player2Score) {
-      alert('The values you entered are should not equal each other!');
+      alert("The values you entered are should not equal each other!");
       return;
     }
-    const winnerId = player1Score < player2Score ? currentMatch.player2Id : currentMatch.player1Id;
-    if (window.confirm('Are these results correct') && winnerId) {
+    const winnerId =
+      player1Score < player2Score
+        ? currentMatch.player2Id
+        : currentMatch.player1Id;
+    if (window.confirm("Are these results correct") && winnerId) {
       const matchRes = {
         match: {
           matchId: currentMatch.id,
           winnerId: winnerId,
-          score: player1Score + '-' + player2Score
+          score: player1Score + "-" + player2Score
         }
       };
-      socket.emit('send match results', matchRes);
+      socket.emit("send match results", matchRes);
       const tempBrackette = _.cloneDeep(this.props.brackette);
       tempBrackette.inprogress = false;
       tempBrackette.currentMatch = {};
-      socket.emit('add brackette', tempBrackette);
+      socket.emit("add brackette", tempBrackette);
     }
   }
   componentDidMount() {
     // -___-
-    document.getElementsByClassName('stupidcssfix')[0].parentElement.style.width = "auto";
-    document.getElementsByClassName('stupidcssfix')[0].parentElement.style.margin = "0 auto";
+    document.getElementsByClassName(
+      "stupidcssfix"
+    )[0].parentElement.style.width =
+      "auto";
+    document.getElementsByClassName(
+      "stupidcssfix"
+    )[0].parentElement.style.margin =
+      "0 auto";
   }
   render() {
     const { currentMatch } = this.props;
     return (
       <div>
-        <GridList cellHeight={180} style={styles.gridList} >
+        <GridList cellHeight={180} style={styles.gridList}>
           <MatchCard
             playerName={currentMatch.player1Name}
             score={this.state.player1score}
@@ -108,7 +117,13 @@ class CurrentMatchDisplay extends Component {
             handleIncrease={this.onPlayer2ScoreIncrease.bind(this)}
             handleDecrease={this.onPlayer2ScoreDecrease.bind(this)}
           />
-          <FloatingActionButton onTouchTap={(e) => { e.preventDefault(); this.submitResult(e); }} className="stupidcssfix">
+          <FloatingActionButton
+            onTouchTap={e => {
+              e.preventDefault();
+              this.submitResult(e);
+            }}
+            className="stupidcssfix"
+          >
             <Send />
           </FloatingActionButton>
         </GridList>
@@ -120,7 +135,13 @@ const mapStateToProps = state => ({
   brackette: state.brackette
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  updateBrackette
-}, dispatch);
-export default connect(mapStateToProps, mapDispatchToProps)(CurrentMatchDisplay);
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      updateBrackette
+    },
+    dispatch
+  );
+export default connect(mapStateToProps, mapDispatchToProps)(
+  CurrentMatchDisplay
+);
