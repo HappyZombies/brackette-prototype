@@ -1,9 +1,9 @@
 // npm modules
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from "react";
+import { connect } from "react-redux";
 
-import SetupModal from './SetupModal';
-import ViewContainer from './ViewContainer';
+import SetupModal from "./SetupModal";
+import ViewContainer from "./ViewContainer";
 
 class Home extends Component {
   // while pending, it is null, have conditional render.
@@ -16,7 +16,6 @@ class Home extends Component {
       </div>
     );
   }
-
 }
 
 const mapStateToProps = state => ({

@@ -1,17 +1,17 @@
 // npm modules
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
-import _ from 'lodash';
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import _ from "lodash";
 
-import { bindActionCreators } from 'redux';
-import { updateBrackette, deleteBrackette } from '../actions/bracketteActions';
-import SettingsIcon from 'material-ui/svg-icons/action/settings';
-import IconButton from 'material-ui/IconButton';
-import Dialog from 'material-ui/Dialog';
-import FlatButton from 'material-ui/FlatButton';
-import TextField from 'material-ui/TextField';
-import RadioButton from 'material-ui/RadioButton';
-import RadioButtonGroup from 'material-ui/RadioButton/RadioButtonGroup';
+import { bindActionCreators } from "redux";
+import { updateBrackette, deleteBrackette } from "../actions/bracketteActions";
+import SettingsIcon from "material-ui/svg-icons/action/settings";
+import IconButton from "material-ui/IconButton";
+import Dialog from "material-ui/Dialog";
+import FlatButton from "material-ui/FlatButton";
+import TextField from "material-ui/TextField";
+import RadioButton from "material-ui/RadioButton";
+import RadioButtonGroup from "material-ui/RadioButton/RadioButtonGroup";
 
 class SettingsModal extends Component {
   constructor(props) {
@@ -37,7 +37,10 @@ class SettingsModal extends Component {
           <FlatButton
             label="Submit"
             primary={true}
-            onTouchTap={(e) => { e.preventDefault(); this.handleSubmit(); }}
+            onTouchTap={e => {
+              e.preventDefault();
+              this.handleSubmit();
+            }}
           />
         ]}
         open={this.state.modalOpen}
@@ -52,7 +55,7 @@ class SettingsModal extends Component {
             value={this.state.name}
           />
           {(() => {
-            if (this.props.brackette.role === 'host') {
+            if (this.props.brackette.role === "host") {
               return (
                 <div>
                   <TextField
@@ -73,15 +76,25 @@ class SettingsModal extends Component {
             return (
               <FlatButton
                 label="Reset Match"
-                onTouchTap={(e) => { e.preventDefault(); this.handleResetMatchTouch(); }}
+                onTouchTap={e => {
+                  e.preventDefault();
+                  this.handleResetMatchTouch();
+                }}
               />
             );
           })()}
           <FlatButton
             label="Reset Device"
-            onTouchTap={(e) => { e.preventDefault(); this.handleResetDevice(e); }}
+            onTouchTap={e => {
+              e.preventDefault();
+              this.handleResetDevice(e);
+            }}
           />
-          <RadioButtonGroup name="role" onChange={this.handleRadioChange.bind(this)} defaultSelected={this.state.role} >
+          <RadioButtonGroup
+            name="role"
+            onChange={this.handleRadioChange.bind(this)}
+            defaultSelected={this.state.role}
+          >
             <RadioButton value="host" label="Host" />
             <RadioButton value="client" label="Client" />
           </RadioButtonGroup>
@@ -102,18 +115,15 @@ class SettingsModal extends Component {
   }
   handleResetMatchTouch() {
     const { brackette, socket } = this.props;
-    // do something different here....
-    // okay listen up, we want to remove their current match while telling every brackette person what happened.
-    // so, send a match but we don't want to actually send it ?
     if (!brackette.inprogress) {
       // don't bother updating state if there is no match
       return;
     }
-    if (window.confirm('Are you sure ? This will remove your current match.')) {
+    if (window.confirm("Are you sure ? This will remove your current match.")) {
       const tempBrackette = _.cloneDeep(brackette);
       tempBrackette.inprogress = false;
       tempBrackette.currentMatch = {};
-      socket.emit('add brackette', tempBrackette);
+      socket.emit("add brackette", tempBrackette);
       this.handleClose();
     }
   }
@@ -127,7 +137,7 @@ class SettingsModal extends Component {
     tempBrackette.tournamentId = this.state.tournamentId;
     tempBrackette.error = null;
     //^reset error...
-    this.props.socket.emit('add brackette', tempBrackette);
+    this.props.socket.emit("add brackette", tempBrackette);
     // consider putting sockets in redux so we don't have to pass it all the time ? well this is fine...
     this.handleClose();
   }
@@ -153,32 +163,38 @@ class SettingsModal extends Component {
   }
   handleResetDevice(e) {
     const { deleteBrackette } = this.props;
-    if (window.confirm('Are you sure ? This will reset your device.')) {
+    if (window.confirm("Are you sure ? This will reset your device.")) {
       deleteBrackette(this.props.brackette.id);
     }
   }
   render() {
     return (
       <div>
-        <IconButton onTouchTap={(e) => { e.preventDefault(); this.handleTouchTap(e); }} >
+        <IconButton
+          onTouchTap={e => {
+            e.preventDefault();
+            this.handleTouchTap(e);
+          }}
+        >
           <SettingsIcon />
         </IconButton>
         {this.modal()}
       </div>
     );
   }
-
-
 }
 
 const mapStateToProps = state => ({
   brackette: state.brackette
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators({
-  updateBrackette,
-  deleteBrackette
-}, dispatch);
-
+const mapDispatchToProps = dispatch =>
+  bindActionCreators(
+    {
+      updateBrackette,
+      deleteBrackette
+    },
+    dispatch
+  );
 
 export default connect(mapStateToProps, mapDispatchToProps)(SettingsModal);

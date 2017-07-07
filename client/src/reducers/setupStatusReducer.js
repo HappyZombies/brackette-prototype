@@ -1,10 +1,13 @@
-import store from 'store';
+import store from "store";
 
-import * as ActionTypes from '../actions/actionTypes';
-import * as LocalStorageConsts from '../LocalStorageConsts';
+import * as ActionTypes from "../actions/actionTypes";
+import * as LocalStorageConsts from "../LocalStorageConsts";
 
 const defaultState = {
-  setup: store.get(LocalStorageConsts.APP_SETUP) === undefined ? false : store.get(LocalStorageConsts.APP_SETUP),
+  setup:
+    store.get(LocalStorageConsts.APP_SETUP) === undefined
+      ? false
+      : store.get(LocalStorageConsts.APP_SETUP),
   pending: store.get(LocalStorageConsts.APP_SETUP) === undefined,
   error: null
 };
@@ -34,6 +37,7 @@ export const setupStatus = (state = defaultState, action) => {
     case ActionTypes.UPDATE_SETUP_STATUS_REJECTED: {
       return { ...state, error: action.payload.response.data.error };
     }
-    default: return state;
+    default:
+      return state;
   }
-}
+};

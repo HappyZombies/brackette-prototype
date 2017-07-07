@@ -1,8 +1,8 @@
-import _ from 'lodash';
-import db from '../db';
+import _ from "lodash";
+import db from "../db";
 
-import * as ActionTypes from '../actions/actionTypes';
-import Brackette from '../Brackette';
+import * as ActionTypes from "../actions/actionTypes";
+import Brackette from "../Brackette";
 
 export const brackette = (state = null, action) => {
   switch (action.type) {
@@ -11,7 +11,7 @@ export const brackette = (state = null, action) => {
       if (_.isEmpty(newBrackette)) {
         // first time... create their brackette object and store it in db.
         newBrackette = new Brackette();
-        db.table('brackette').add(newBrackette);
+        db.table("brackette").add(newBrackette);
         return newBrackette;
       }
       return newBrackette[0];
@@ -24,6 +24,7 @@ export const brackette = (state = null, action) => {
       window.location.reload();
       break;
     }
-    default: return state;
+    default:
+      return state;
   }
 };

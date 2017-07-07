@@ -1,7 +1,7 @@
-import { applyMiddleware, createStore } from 'redux';
-import promise from 'redux-promise-middleware';
+import { applyMiddleware, createStore } from "redux";
+import promise from "redux-promise-middleware";
 
-import reducers from './reducers';
+import reducers from "./reducers";
 
 const middleware = applyMiddleware(promise());
 

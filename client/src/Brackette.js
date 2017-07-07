@@ -1,11 +1,10 @@
 /**
  * The Brackette Object is the data on what the user is and contains all of their information.
  */
-import shortid from 'shortid';
+import shortid from "shortid";
 
 export default class Brackette {
   constructor() {
-
     /**
      * An array of all the Brackette Users.
      * The property will be the socket id that is given to them upon connection.
@@ -49,12 +48,12 @@ export default class Brackette {
      * For clients:
      *  null value as clients don't care about tournament ids.
      */
-    this.tournamentId = '';
+    this.tournamentId = "";
 
     /**
      * A unique id that will never change unless local storage is deleted.
      */
-    this.id = shortid.generate();// an actual unique id.
+    this.id = shortid.generate(); // an actual unique id.
 
     /**
      * For clients:
@@ -72,14 +71,14 @@ export default class Brackette {
      * The name they specify. We recommend calling hosts 'Main Hosts/ Host 2'
      * And clients "Setup 1, 2 etc."
      */
-    this.name = '';
+    this.name = "";
 
     /**
      * What role this user is going to be. Only two values should be allowed
      * client or host
      * TODO: How do we enforce this ?
      */
-    this.role = '';
+    this.role = "";
 
     /**
      * The socketid that is given to us upon connection.
@@ -90,6 +89,6 @@ export default class Brackette {
     /**
      * For hosts, the subdomain that will be used incase their tournament contains a subdomain
      */
-    this.subdomain = '';
+    this.subdomain = "";
   }
 }
