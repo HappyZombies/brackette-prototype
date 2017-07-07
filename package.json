@@ -1,6 +1,7 @@
 {
   "name": "brackette",
-  "version": "0.2.1b",
+  "version": "0.3.0",
+  "description": "Run your challonge tournaments with ease.",
   "main": "./server/index.js",
   "pkg": {
     "assets": [
@@ -18,49 +19,31 @@
   "bin": {
     "brackette": "./server/index.js"
   },
-  "description": "Run your challonge tournamnets with ease.",
   "scripts": {
     "start": "node ./server/index.js",
-    "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start:dev": "concurrently \"npm run server\" \"npm run client\"",
     "desktop": "electron ./desktop/main.js",
     "server": "nodemon ./server/index.js",
     "client": "node ./server/tools/start-client.js",
-    "lint": "eslint",
-    "update": "node ./update.js",
     "package": "pkg -t node7-win . && cd updater && pkg -t node7-win updater.js && cd .."
   },
-  "repository": {
-    "url": "git+https://github.com/HappyZombies/brackette.git"
-  },
-  "author": "Daniel Reguero",
+  "author": "",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/HappyZombies/brackette/issues"
-  },
-  "homepage": "https://github.com/HappyZombies/brackette#readme",
   "dependencies": {
     "adm-zip": "^0.4.7",
-    "auto-updater": "^1.0.2",
     "body-parser": "^1.17.2",
     "challonge": "^2.1.0",
+    "colors": "^1.1.2",
     "cookie-parser": "^1.4.3",
+    "dexie": "^1.5.1",
     "dotenv": "^4.0.0",
     "download-github-release": "^0.1.3",
-    "electron": "^1.6.10",
     "express": "^4.15.3",
-    "jquery": "^3.2.1",
-    "keymaster": "^1.6.2",
     "morgan": "^1.8.2",
-    "opn": "^5.0.0",
-    "progress": "^2.0.0",
-    "promise": "^7.1.1",
-    "request": "^2.81.0",
-    "socket.io": "^2.0.2"
+    "socket.io": "^2.0.3"
   },
   "devDependencies": {
-    "electron-packager": "^8.7.1",
-    "eslint": "^3.19.0",
-    "jest": "^20.0.4",
-    "pkg": "^4.0.0"
+    "eslint": "^4.0.0",
+    "pkg": "^4.1.0"
   }
 }

@@ -1,127 +1,149 @@
-const socketio = require('socket.io')
-const challonge = require('challonge')
-const fs = require('fs')
-let setupConfig = JSON.parse(fs.readFileSync(process.cwd() + '/config.json'))
+const socketio = require('socket.io');
+const challonge = require('challonge');
+const fs = require('fs');
+const _ = require('lodash');
+let setupConfig = JSON.parse(fs.readFileSync(process.cwd() + '/config.json'));
 let challongeClient = challonge.createClient({
   apiKey: setupConfig.apikey
-})
-let ALL_BRACKETTES = {}
-let OPEN_MATCHES = {}
-let ALL_PLAYERS_NAME = {}
-let currentTournamentId
+});
+let ALL_BRACKETTES = {};
+let OPEN_MATCHES = {};
+let ALL_PLAYERS_NAME = {};
+let tournamentId = "";
 
 // Listen for changes incase setupConfig changes (on first setup or reset)
 fs.watch(process.cwd() + '/config.json', () => {
   setupConfig = JSON.parse(fs.readFileSync(process.cwd() + '/config.json'));
   challongeClient = challonge.createClient({
     apiKey: setupConfig.apikey
-  })
-})
+  });
+});
 
 module.exports.listen = (app) => {
-  const io = socketio.listen(app)
+  const io = socketio.listen(app);
   io.sockets.on('connection', (socket) => {
-    console.log('someone connected ', socket.id)
+    // see if they are ready to send us data...
     socket.on('add brackette', (brackette) => {
-      // The brackette user is setup, let's add them to our object here.
-      brackette.socketId = socket.id
-      ALL_BRACKETTES[socket.id] = brackette
-      if (isHost(brackette.socketId) && (((brackette.currentTournamentId !== currentTournamentId) && brackette.currentTournamentId) || Object.keys(OPEN_MATCHES).length === 0)) {
+      console.log('brackette user connected -> ', brackette.name);
+      let _brackette = _.clone(brackette);
+      _brackette.socketId = socket.id;
+      _brackette.allBrackettes = {};
+      ALL_BRACKETTES[socket.id] = _brackette;
+      const adjustedTournamentId = _brackette.subdomain ? _brackette.subdomain + "-" + _brackette.tournamentId : _brackette.tournamentId;
+      if (isHost(_brackette.socketId) && ((adjustedTournamentId !== tournamentId) || Object.keys(OPEN_MATCHES).length === 0)) {
         // if this dude is a server, get the matches.
+        console.log('Going to attempt to get tournament...');
         challongeClient.matches.index({
-          id: brackette.currentTournamentId,
+          id: adjustedTournamentId,
           state: 'open',
           callback: (err, data) => {
-            if (err || !brackette.currentTournamentId) {
-              console.log('There was an error communicating with Brackette.')
-              socket.emit('brackette error', { message: 'There was an error with the tournament ID given...' })
-              OPEN_MATCHES = {}
-              ALL_PLAYERS_NAME = {}
-              return
+            if (err || !_brackette.tournamentId) {
+              console.log(err);
+              socket.emit('brackette error', { message: err ? err.text : "No tournament id is specified." });
+              OPEN_MATCHES = {};
+              ALL_PLAYERS_NAME = {};
+              return;
             }
-            currentTournamentId = brackette.currentTournamentId
-            OPEN_MATCHES = err ? {} : data
-            socket.emit('receive matches', OPEN_MATCHES)
+            tournamentId = adjustedTournamentId;
+            if (_.isEmpty(data)) {
+              socket.emit('brackette error', { message: "There are no open tournaments..." });
+              return;
+            }
+            OPEN_MATCHES = _.cloneDeep(data);
+            console.log('Matches received, going to send them to the host device.');
+            socket.emit('receive matches', OPEN_MATCHES);
             // now get the all players names...
+            console.log('Now going to retrieve the players names.');
             challongeClient.participants.index({
-              id: brackette.currentTournamentId,
+              id: adjustedTournamentId,
               callback: (err, data) => {
                 if (err) {
-                  console.log('Error getting all players name...')
-                  OPEN_MATCHES = {}
-                  ALL_PLAYERS_NAME = {}
-                  socket.emit('brackette error', { message: 'There was an error getting the players names...' })
-                  return
+                  console.log(err);
+                  OPEN_MATCHES = {};
+                  ALL_PLAYERS_NAME = {};
+                  socket.emit('brackette error', { message: err.text });
+                  return;
+                }
+                //if there is data already here, reset it.
+                if (Object.keys(ALL_PLAYERS_NAME).length !== 0) {
+                  ALL_PLAYERS_NAME = {};
                 }
                 // store ALL_PLAYERS to object by their player id.
                 for (const i in data) {
-                  ALL_PLAYERS_NAME[data[i].participant.id] = data[i].participant.displayName
+                  ALL_PLAYERS_NAME[data[i].participant.id] = data[i].participant.displayName;
                 }
-                socket.emit('receive players names', ALL_PLAYERS_NAME)
+                console.log('Players names received, sending them to the host device.');
+                socket.emit('receive players names', ALL_PLAYERS_NAME);
               }
-            })
+            });
           }
-        })
-      } else {
-        // TODO: Do something here ???
+        });
       }
-      io.sockets.emit('update brackettes', ALL_BRACKETTES) // tell every connected user
-    })
+      io.sockets.emit('update brackettes', ALL_BRACKETTES); // tells every connected user
+    });
     socket.on('send private match details', (matchDetails) => {
+      console.log('Going to send a specific match to a client device.');
       if (Object.keys(OPEN_MATCHES).length !== 0) {
         // here we would calculate the match! nice...
-        io.to(matchDetails.socketId).emit('receive match details', matchDetails.specificMatch)
+        io.to(matchDetails.socketId).emit('receive match details', matchDetails.specificMatch);
       } else {
-        socket.emit('brackette error', { message: 'There are no open matches...' })
+        console.log('There are no open matches to send... did the tournament end? Or is there an error ? ');
+        socket.emit('brackette error', { message: 'There are no open matches...did the tournament end ?' });
       }
-    })
-
+    });
     socket.on('send match results', (matchRes) => {
+      console.log('Going to submit match results.');
       challongeClient.matches.update({
-        id: currentTournamentId,
+        id: tournamentId,
         matchId: matchRes.match.matchId,
         match: {
           scoresCsv: matchRes.match.score,
           winnerId: matchRes.match.winnerId
         },
-        callback: (err, data) => {
+        callback: (err) => {
           if (err) {
-            console.log('Error sending match results.')
-            console.dir(err)
-            socket.emit('brackette error', { message: 'There was an error with the tournament ID given...' })
-            // FIXME: Make these errors more specific :P
-            return
+            console.log('Error sending match results.');
+            console.dir(err);
+            socket.emit('brackette error', { message: err.text });
+            return;
           }
           // now we need to get the new set of open tournaments....
           // could this be it's own function I wonder...
+          console.log('Match results submitted succesfully, now going to get the new list of open matches.');
           challongeClient.matches.index({
-            id: currentTournamentId,
+            id: tournamentId,
             state: 'open',
             callback: (err, data) => {
               if (err) {
-                console.dir("Error retrieving open matches from Challonge.")
-                socket.emit('brackette error', { message: 'There was an error with the tournament ID given...' })
-                OPEN_MATCHES = {}
-                return
+                console.dir("Error retrieving the updated list of open matches from Challonge.");
+                socket.emit('brackette error', { message: err.text });
+                OPEN_MATCHES = {};
+                return;
               }
-              OPEN_MATCHES = data
+              console.log('Succesfully obtained a list of open matches...sending them now');
+              OPEN_MATCHES = data;
+              const hostToSend = _.find(ALL_BRACKETTES, function (brack) {
+                return brack.role === 'host';
+              });
               // this emit will tell the server that it needs to update a few things...
-              io.to(matchRes.hostToSend.socketId).emit('update matches', OPEN_MATCHES)
+              io.to(hostToSend.socketId).emit('matches updated', OPEN_MATCHES);
             }
-          })
+          });
         }
-      })
-    })
-
+      });
+    });
     socket.on('disconnect', () => {
-      console.log('someone disconnected', socket.id)
-      delete ALL_BRACKETTES[socket.id]
-      // io.sockets.emit('someone_left', bracketteUserThatLeft)
-      io.sockets.emit('update brackettes', ALL_BRACKETTES)
-    })
-  })
+      try {
+        console.log('brackette user disconnected -> ', ALL_BRACKETTES[socket.id].name);
+      } catch (error) {
+        console.log('someone disconnected -> ', socket.id);
+      }
+      delete ALL_BRACKETTES[socket.id];
+      io.sockets.emit('update brackettes', ALL_BRACKETTES); // tell every connected user
+    });
+  });
 
   function isHost(socketId) {
-    return ALL_BRACKETTES[socketId].role === 'host'
+    return ALL_BRACKETTES[socketId].role === 'host';
   }
-}
+};
