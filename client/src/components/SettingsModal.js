@@ -70,6 +70,13 @@ class SettingsModal extends Component {
                     onChange={this.handleSubdomainChange.bind(this)}
                     value={this.state.subdomain}
                   />
+                  <FlatButton
+                    label="Refresh Match"
+                    onTouchTap={e => {
+                      e.preventDefault();
+                      this.handleRefreshDevice(e);
+                    }}
+                  />
                 </div>
               );
             }
@@ -167,6 +174,13 @@ class SettingsModal extends Component {
       deleteBrackette(this.props.brackette.id);
     }
   }
+
+  handleRefreshDevice(e) {
+    const {socket} = this.props;
+    socket.emit("refresh match");
+    this.handleClose();
+  }
+
   render() {
     return (
       <div>

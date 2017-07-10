@@ -32,21 +32,29 @@ module.exports.listen = app => {
       const adjustedTournamentId = _brackette.subdomain
         ? _brackette.subdomain + "-" + _brackette.tournamentId
         : _brackette.tournamentId;
+      if (!_brackette.tournamentId) {
+        socket.emit("brackette error", {
+          message: "Tournament id is empty. Not going to request challonge."
+        });
+        OPEN_MATCHES = {};
+        ALL_PLAYERS_NAME = {};
+        return;
+      }
       if (
-        isHost(_brackette.socketId) &&
-        (adjustedTournamentId !== tournamentId ||
-          Object.keys(OPEN_MATCHES).length === 0)
+        (isHost(_brackette.socketId)) &&
+        (adjustedTournamentId !== tournamentId) ||
+        (Object.keys(OPEN_MATCHES).length === 0)
       ) {
-        // if this dude is a server, get the matches.
+        // Consider doing this in a method to prevent calling the add method ? Maybe it's own emit ?
         console.log("Going to attempt to get tournament...");
         challongeClient.matches.index({
           id: adjustedTournamentId,
           state: "open",
           callback: (err, data) => {
-            if (err || !_brackette.tournamentId) {
+            if (err) {
               console.log(err);
               socket.emit("brackette error", {
-                message: err ? err.text : "No tournament id is specified."
+                message: err.text
               });
               OPEN_MATCHES = {};
               ALL_PLAYERS_NAME = {};
@@ -96,6 +104,7 @@ module.exports.listen = app => {
       }
       io.sockets.emit("update brackettes", ALL_BRACKETTES); // tells every connected user
     });
+
     socket.on("send private match details", matchDetails => {
       console.log("Going to send a specific match to a client device.");
       if (Object.keys(OPEN_MATCHES).length !== 0) {
@@ -112,10 +121,12 @@ module.exports.listen = app => {
         });
       }
     });
+
     socket.on("send removal of current match", clientSocketId => {
       console.log("Going to remove the current match from the client");
       io.to(clientSocketId).emit("remove current match");
     });
+
     socket.on("send match results", matchRes => {
       console.log("Going to submit match results.");
       challongeClient.matches.update({
@@ -137,32 +148,42 @@ module.exports.listen = app => {
           console.log(
             "Match results submitted succesfully, now going to get the new list of open matches."
           );
-          challongeClient.matches.index({
-            id: tournamentId,
-            state: "open",
-            callback: (err, data) => {
-              if (err) {
-                console.dir(
-                  "Error retrieving the updated list of open matches from Challonge."
-                );
-                socket.emit("brackette error", { message: err.text });
-                OPEN_MATCHES = {};
-                return;
-              }
-              console.log(
-                "Succesfully obtained a list of open matches...sending them now"
-              );
-              OPEN_MATCHES = data;
-              const hostToSend = _.find(ALL_BRACKETTES, function(brack) {
-                return brack.role === "host";
-              });
-              // this emit will tell the server that it needs to update a few things...
-              io.to(hostToSend.socketId).emit("matches updated", OPEN_MATCHES);
-            }
-          });
+          quicklyGetMatches();
         }
       });
     });
+
+    socket.on("refresh match", () => {
+      console.log("Tournament refresh called.");
+      quicklyGetMatches();
+    });
+
+    function quicklyGetMatches () {
+      challongeClient.matches.index({
+        id: tournamentId,
+        state: "open",
+        callback: (err, data) => {
+          if (err) {
+            console.dir(
+              "Error retrieving the updated list of open matches from Challonge."
+            );
+            socket.emit("brackette error", { message: err.text });
+            OPEN_MATCHES = {};
+            return;
+          }
+          console.log(
+            "Succesfully obtained a list of open matches...sending them now to host/TO"
+          );
+          OPEN_MATCHES = data;
+          const hostToSend = _.find(ALL_BRACKETTES, function (brack) {
+            return brack.role === "host";
+          });
+          // this emit will tell the server that it needs to update a few things...
+          io.to(hostToSend.socketId).emit("matches updated", OPEN_MATCHES);
+        }
+      });
+    }
+
     socket.on("disconnect", () => {
       try {
         console.log(

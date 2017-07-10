@@ -53,7 +53,7 @@ export default class Brackette {
     /**
      * A unique id that will never change unless local storage is deleted.
      */
-    this.id = shortid.generate(); // an actual unique id.
+    this.id = shortid.generate();
 
     /**
      * For clients:
